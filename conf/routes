@@ -1,0 +1,3 @@
+GET   /v1/parkingSpots/:spotId      com.ridecell.controllers.ParkingSpotController.getPricePerHour(spotId: Int)
+
+GET   /v1/parkingSpots              com.ridecell.controllers.ParkingSpotController.getParkingSpots()
