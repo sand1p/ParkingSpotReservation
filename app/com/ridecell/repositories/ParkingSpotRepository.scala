@@ -3,15 +3,13 @@ package com.ridecell.repositories
 import com.datastax.driver.core.Row
 import com.ridecell.connections.CassandraClient
 import com.ridecell.models.ParkingSpot
-import javax.inject.Singleton
-
-import scala.xml.Elem
+import javax.inject.{Inject, Singleton}
 
 @Singleton
-class ParkingSpotRepository {
+class ParkingSpotRepository@Inject()(cassandraClient: CassandraClient) {
   private val keyspace = "parkingsystem"
   private val parkingSpot = "parkingspot"
-  private val session  = CassandraClient.getSession(keyspace)
+  private val session  = cassandraClient.getSession(keyspace)
   private val getPricePerHour = session.prepare(s"SELECT pricePerHour FROM $keyspace.$parkingSpot WHERE spotId = ? ALLOW FILTERING")
   private val getParkingSpotsQuery = session.prepare(s"SELECT * FROM $keyspace.$parkingSpot")
 
@@ -24,7 +22,7 @@ class ParkingSpotRepository {
     session.execute(getParkingSpotsQuery.bind()).asScala.toList.map( parkingSpot => toParkingSpot(parkingSpot))
   }
 
-  def toParkingSpot(row: Row): ParkingSpot = {
+  private def toParkingSpot(row: Row): ParkingSpot = {
     ParkingSpot(
       row.getInt("lat"),
       row.getInt("lng"),

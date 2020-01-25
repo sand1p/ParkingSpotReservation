@@ -18,6 +18,7 @@ class ParkingSpotController @Inject()(cc: ControllerComponents,
   def getPricePerHour(spotId: Int) = Action { request =>
     val pricePerHour = parkingSpotService.getPricePerHour(spotId)
     Ok(<result>
+      <status>Success</status>
       <spotId>
         {spotId}
       </spotId>
@@ -35,6 +36,7 @@ class ParkingSpotController @Inject()(cc: ControllerComponents,
   def getParkingSpots() = Action { request =>
     val parkingSpots: List[ParkingSpot] = parkingSpotService.getParkingSpots()
     Ok(<parkingSpots>
+      <status>Success</status>
       {parkingSpots.map { parkingSpot => parkingSpot.asXML() }}
     </parkingSpots>)
   }
