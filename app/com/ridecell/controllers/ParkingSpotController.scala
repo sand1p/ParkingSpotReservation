@@ -15,7 +15,7 @@ class ParkingSpotController @Inject()(cc: ControllerComponents,
     * @param spotId
     * @return Price per hour for parking spot
     */
-  def getPricePerHour(spotId: Int) = Action { request =>
+  def getPricePerHour(spotId: String) = Action { request =>
     val pricePerHour = parkingSpotService.getPricePerHour(spotId)
     Ok(<result>
       <status>Success</status>
