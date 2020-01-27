@@ -1,14 +1,25 @@
 package com.ridecell.models
 
+import java.util.UUID
+
 import scala.xml.Elem
 
+/**
+  *
+  * @param id Unique id of parking_spot table
+  * @param lat lattitude
+  * @param lng lngitude
+  * @param spotNumber
+  * @param costPerMinute
+  */
 
-case class ParkingSpot(lat: Int, lng: Int, spotId: Int, pricePerHour: Int){
+case class ParkingSpot(id: UUID, lat: Double, lng: Double, spotNumber: Int, costPerMinute: Int) {
   def asXML(): Elem =
     <parkingSpot>
       <lat>{lat}</lat>
       <lng>{lng}</lng>
-      <spotId>{spotId}</spotId>
-      <pricePerHour>{pricePerHour}</pricePerHour>
+      <spotNumber>{spotNumber}</spotNumber>
+      <pricePerMinute>{costPerMinute}</pricePerMinute>
+      <id>{id}</id>
     </parkingSpot>
 }

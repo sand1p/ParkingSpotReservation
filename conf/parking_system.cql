@@ -1,22 +1,36 @@
-CREATE KEYSPACE parkingsystem WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+#parking_system   Keyspace creation
 
-CREATE TABLE parkingsystem.parkingspot (
-    lng int,
-    lat int,
-    spotid int,
-    priceperhour int,
-    PRIMARY KEY ((lng, lat), spotid)
-) WITH CLUSTERING ORDER BY (spotid ASC)
-    AND bloom_filter_fp_chance = 0.01
-    AND caching = '{"keys":"ALL", "rows_per_partition":"NONE"}'
-    AND comment = ''
-    AND compaction = {'class': 'org.apache.cassandra.db.compaction.SizeTieredCompactionStrategy'}
-    AND compression = {'sstable_compression': 'org.apache.cassandra.io.compress.LZ4Compressor'}
-    AND dclocal_read_repair_chance = 0.1
-    AND default_time_to_live = 0
-    AND gc_grace_seconds = 864000
-    AND max_index_interval = 2048
-    AND memtable_flush_period_in_ms = 0
-    AND min_index_interval = 128
-    AND read_repair_chance = 0.0
-    AND speculative_retry = '99.0PERCENTILE';
+CREATE KEYSPACE parking_system WITH replication = {'class': 'SimpleStrategy', 'replication_factor': '1'}  AND durable_writes = true;
+
+# Reservation
+create table reservation(
+	id timeuuid,
+	spot_id text,
+	user_id text,
+	status text,
+	start_time timestamp,
+	end_time timestamp,
+	total_charges double,
+	Primary Key ( user_id, status, start_time)
+	) WITH CLUSTERING ORDER BY (status ASC, start_time DESC) ;
+
+#  Parking Spot
+CREATE TABLE parking_system.parking_spot (
+    is_available boolean,
+    cost_per_minute int,
+    id uuid,
+    lat double,
+    lng double,
+    spot_number int,
+    PRIMARY KEY (is_available, cost_per_minute, id)
+) WITH CLUSTERING ORDER BY (cost_per_minute ASC, id ASC)
+
+# User
+create table user(
+	id timeuuid,
+	mobile_number text,
+	password text,
+	fname text,
+	email text,
+	Primary Key(mobile_number)
+)

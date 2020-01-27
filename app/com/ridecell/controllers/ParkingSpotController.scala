@@ -10,34 +10,15 @@ class ParkingSpotController @Inject()(cc: ControllerComponents,
                                       parkingSpotService: ParkingSpotService) extends AbstractController(cc) {
 
   /**
-    * API to return price per hour for parking spot
-    *
-    * @param spotId
-    * @return Price per hour for parking spot
-    */
-  def getPricePerHour(spotId: String) = Action { request =>
-    val pricePerHour = parkingSpotService.getPricePerHour(spotId)
-    Ok(<result>
-      <status>Success</status>
-      <spotId>
-        {spotId}
-      </spotId>
-      <pricePerHour>
-        {pricePerHour}
-      </pricePerHour>
-    </result>)
-  }
-
-  /**
-    * API to get list of parking spots based on no criteria
+    * See available parking spots on a map
     *
     * @return
     */
-  def getParkingSpots() = Action { request =>
-    val parkingSpots: List[ParkingSpot] = parkingSpotService.getParkingSpots()
+  def getAvailableParkingSpots = Action { request =>
+    val parkingSpots: List[ParkingSpot] = parkingSpotService.getAvailable
     Ok(<parkingSpots>
       <status>Success</status>
-      {parkingSpots.map { parkingSpot => parkingSpot.asXML() }}
+      {parkingSpots.map(parkingSpot => parkingSpot.asXML())}
     </parkingSpots>)
   }
 
