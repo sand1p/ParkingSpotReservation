@@ -1,5 +1,12 @@
-GET   /v1/parkingSpots              com.ridecell.controllers.ParkingSpotController.getAvailableParkingSpots
+GET  /v1/parkingSpots              com.ridecell.controllers.ParkingSpotController.getAvailableParkingSpots
 
 POST /v1/reservations               com.ridecell.controllers.ReservationController.reserve
 
-GET /v1/reservations               com.ridecell.controllers.ReservationController.getReservations(status: Option[String])
+GET  /v1/reservations                com.ridecell.controllers.ReservationController.getReservations(status: Option[String])
+
+GET   /v1/reservations/costs        com.ridecell.controllers.ReservationController.getCost(reservationId: String, spotId: String)
+
+#UPDATE  /v1/reservations             com.ridecell.controllers.ReservationController.cancel(registrationId: String, spotId: String)
+
+
+#GET  /v1/reservations                com.ridecell.controllers.ReservationController.getReservations(status: Option[String])

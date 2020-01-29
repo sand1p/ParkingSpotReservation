@@ -31,7 +31,7 @@ class ReservationController @Inject()(cc: ControllerComponents, reservationServi
           </response>)
         }.getOrElse(NotFound(<response>
           <status>Failure</status>
-          <message>Parking Spot is not available anymore</message>
+          <message>Parking Spot is not available.</message>
         </response>))
 
       case None =>
@@ -55,13 +55,19 @@ class ReservationController @Inject()(cc: ControllerComponents, reservationServi
       userId <- headers.get("userId").map(UUID.fromString)
       spotId <- xmlParser.get("spotId").map(UUID.fromString)
       status <- xmlParser.get("status")
-      startTime <- xmlParser.get("startTime").map(x => x.toLong)
+      startTime <- xmlParser.get("startTimeEpoch").map(x => x.toLong)
     } yield {
       import ReservationStatusFactory._
-      Reservation(id = id, userId = userId, spotId = spotId, get(status), startTime = startTime, endTime = None, totalCharges = None)
+      Reservation(id = id, userId = userId, spotId = spotId, getInstance(status), startTime = startTime, endTime = None, totalCharges = None)
     }
   }
 
+  /**
+    * View existing reservations based on status {Active, Completed, Reserve}
+    *
+    * @param status
+    * @return
+    */
   def getReservations(status: Option[String]) = Action { request =>
     val userId: Option[String] = request.headers.get("user_id")
     val reservations = for {
@@ -83,6 +89,42 @@ class ReservationController @Inject()(cc: ControllerComponents, reservationServi
           <status>Failure</status>
           <message>UserId/ReservationStatus not found in Request</message>
         </response>)
+    }
+  }
+
+  /**
+    * Cancel an existing reservation
+    */
+/*
+  def cancel(registrationId: String, spotId: String) = Action { request =>
+    val userId = request.headers.get("user_id")
+    val totalCharges = userId.flatMap { uId => reservationService.cancel(registrationId, uId, spotId) }
+    totalCharges match {
+      case Some(charges) => Ok(<response>
+        {<status>Success</status>
+          <totalCharges>
+            {charges}
+          </totalCharges>}
+      </response>)
+      case None => BadRequest(<response>
+        <status>Failure</status>
+        <message>UserId/ReservationStatus not found in Request</message>
+      </response>)
+    }
+  }*/
+
+  def getCost(reservationId: String, spotId: String) = Action{ request =>
+    val userId = request.headers.get("user_id")
+    val totalCharges = userId.flatMap { uId => reservationService.getTotalCharges(reservationId, uId, spotId) }
+    totalCharges match {
+      case Some(charges) => Ok(<response>
+        {<status>Success</status>
+          <cost>{charges}</cost>}
+      </response>)
+      case None => BadRequest(<response>
+        <status>Failure</status>
+        <message>UserId/ReservationStatus not found in Request</message>
+      </response>)
     }
   }
 

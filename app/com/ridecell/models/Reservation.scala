@@ -20,7 +20,7 @@ case object Reserved extends ReservationStatus {
 }
 
 object ReservationStatusFactory {
-  def get(status: String): ReservationStatus = {
+  def getInstance(status: String): ReservationStatus = {
     status.toLowerCase match {
       case "active" => Active
       case "completed" => Completed
@@ -29,7 +29,7 @@ object ReservationStatusFactory {
   }
 }
 
-case class Reservation(id: UUID, userId: UUID, spotId: UUID, status: ReservationStatus, startTime: Long, endTime: Option[Long],totalCharges: Option[Double]){
+case class Reservation(id: UUID, userId: UUID, spotId: UUID, status: ReservationStatus, startTime: Long, endTime: Option[Long], totalCharges: Option[Double]) {
   def asXML: NodeSeq =
     <reservation>
       <id>{id}</id>
