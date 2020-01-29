@@ -95,10 +95,9 @@ class ReservationController @Inject()(cc: ControllerComponents, reservationServi
   /**
     * Cancel an existing reservation
     */
-/*
-  def cancel(registrationId: String, spotId: String) = Action { request =>
+  def cancel(reservationId: String, spotId: String) = Action { request =>
     val userId = request.headers.get("user_id")
-    val totalCharges = userId.flatMap { uId => reservationService.cancel(registrationId, uId, spotId) }
+    val totalCharges = userId.flatMap { uId => reservationService.cancel(reservationId, uId, spotId) }
     totalCharges match {
       case Some(charges) => Ok(<response>
         {<status>Success</status>
@@ -111,8 +110,15 @@ class ReservationController @Inject()(cc: ControllerComponents, reservationServi
         <message>UserId/ReservationStatus not found in Request</message>
       </response>)
     }
-  }*/
+  }
 
+  /**
+    *
+    * Show the user the cost of the reservation
+    * @param reservationId
+    * @param spotId
+    * @return
+    */
   def getCost(reservationId: String, spotId: String) = Action{ request =>
     val userId = request.headers.get("user_id")
     val totalCharges = userId.flatMap { uId => reservationService.getTotalCharges(reservationId, uId, spotId) }
@@ -127,5 +133,6 @@ class ReservationController @Inject()(cc: ControllerComponents, reservationServi
       </response>)
     }
   }
+
 
 }
