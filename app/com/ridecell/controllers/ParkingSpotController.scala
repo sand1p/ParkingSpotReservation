@@ -1,44 +1,43 @@
 package com.ridecell.controllers
 
 import com.ridecell.models.ParkingSpot
+import com.ridecell.services.ParkingSpotService
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.{AbstractController, ControllerComponents}
-import com.ridecell.services.ParkingSpotService
+
+import scala.xml.NodeSeq
 
 @Singleton
 class ParkingSpotController @Inject()(cc: ControllerComponents,
                                       parkingSpotService: ParkingSpotService) extends AbstractController(cc) {
 
   /**
-    * API to return price per hour for parking spot
-    *
-    * @param spotId
-    * @return Price per hour for parking spot
-    */
-  def getPricePerHour(spotId: Int) = Action { request =>
-    val pricePerHour = parkingSpotService.getPricePerHour(spotId)
-    Ok(<result>
-      <status>Success</status>
-      <spotId>
-        {spotId}
-      </spotId>
-      <pricePerHour>
-        {pricePerHour}
-      </pricePerHour>
-    </result>)
-  }
-
-  /**
-    * API to get list of parking spots based on no criteria
+    * See available parking spots on a map
     *
     * @return
     */
-  def getParkingSpots() = Action { request =>
-    val parkingSpots: List[ParkingSpot] = parkingSpotService.getParkingSpots()
-    Ok(<parkingSpots>
-      <status>Success</status>
-      {parkingSpots.map { parkingSpot => parkingSpot.asXML() }}
-    </parkingSpots>)
+  def getAvailableParkingSpots = Action { request =>
+    val parkingSpots: List[ParkingSpot] = parkingSpotService.getAvailable
+    Ok(toParkingSpotXML(parkingSpots))
+  }
+
+  /**
+    * Search for an address and find nearby parking spot. (input: lat, lng, radius in meters. Output - list of
+    * parking spots within the radius).
+    */
+
+  def search(lat: Double, lng: Double, radius: Double) = Action { request =>
+    val userId = request.headers.get("userId")
+    val parkingSpots: List[ParkingSpot] = parkingSpotService.search(lat, lng, radius)
+    Ok(toParkingSpotXML(parkingSpots))
+  }
+
+  private def toParkingSpotXML(parkingSpots: List[ParkingSpot]): NodeSeq = {
+    <response>
+      <status>Success</status> <parkingSpots>
+      {parkingSpots.map(parkingSpot => parkingSpot.asXML())}
+    </parkingSpots>
+    </response>
   }
 
 }

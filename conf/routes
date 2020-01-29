@@ -1,3 +1,16 @@
-GET   /v1/parkingSpots/:spotId      com.ridecell.controllers.ParkingSpotController.getPricePerHour(spotId: Int)
+# Parking Spot APIs
 
-GET   /v1/parkingSpots              com.ridecell.controllers.ParkingSpotController.getParkingSpots()
+GET  /v1/parkingSpots                com.ridecell.controllers.ParkingSpotController.getAvailableParkingSpots
+
+GET  /v1/parkingSpots/search         com.ridecell.controllers.ParkingSpotController.search(lat: Double, lng: Double, radius: Double)
+
+# Reserving parking Spot
+
+POST /v1/reservations                com.ridecell.controllers.ReservationController.reserve
+
+GET  /v1/reservations                com.ridecell.controllers.ReservationController.getReservations(status: Option[String])
+
+GET  /v1/reservations/costs          com.ridecell.controllers.ReservationController.getCost(reservationId: String, spotId: String)
+
+PUT  /v1/reservations                com.ridecell.controllers.ReservationController.cancel(reservationId: String, spotId: String)
+
