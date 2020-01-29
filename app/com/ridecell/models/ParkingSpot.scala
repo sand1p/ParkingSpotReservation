@@ -13,7 +13,7 @@ import scala.xml.Elem
   * @param costPerMinute
   */
 
-case class ParkingSpot(id: UUID, lat: Double, lng: Double, spotNumber: Int, costPerMinute: Int) {
+case class ParkingSpot(id: UUID, lat: Double, lng: Double, spotNumber: Int, costPerMinute: Int, isAvailable: Boolean) {
   def asXML(): Elem =
     <parkingSpot>
       <lat>{lat}</lat>
@@ -21,5 +21,6 @@ case class ParkingSpot(id: UUID, lat: Double, lng: Double, spotNumber: Int, cost
       <spotNumber>{spotNumber}</spotNumber>
       <pricePerMinute>{costPerMinute}</pricePerMinute>
       <id>{id}</id>
+      <isAvailable>{isAvailable}</isAvailable>
     </parkingSpot>
 }

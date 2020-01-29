@@ -1,3 +1,5 @@
 GET   /v1/parkingSpots              com.ridecell.controllers.ParkingSpotController.getAvailableParkingSpots
 
-#POST /v1/reservations               com.ridecell.controllers.ReservationController.reserve
+POST /v1/reservations               com.ridecell.controllers.ReservationController.reserve
+
+GET /v1/reservations               com.ridecell.controllers.ReservationController.getReservations(status: Option[String])

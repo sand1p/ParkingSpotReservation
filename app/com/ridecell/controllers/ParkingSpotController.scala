@@ -1,9 +1,9 @@
 package com.ridecell.controllers
 
 import com.ridecell.models.ParkingSpot
+import com.ridecell.services.ParkingSpotService
 import javax.inject.{Inject, Singleton}
 import play.api.mvc.{AbstractController, ControllerComponents}
-import com.ridecell.services.ParkingSpotService
 
 @Singleton
 class ParkingSpotController @Inject()(cc: ControllerComponents,
@@ -16,10 +16,12 @@ class ParkingSpotController @Inject()(cc: ControllerComponents,
     */
   def getAvailableParkingSpots = Action { request =>
     val parkingSpots: List[ParkingSpot] = parkingSpotService.getAvailable
-    Ok(<parkingSpots>
+    Ok(<response>{
       <status>Success</status>
-      {parkingSpots.map(parkingSpot => parkingSpot.asXML())}
-    </parkingSpots>)
+        <parkingSpots>
+          {parkingSpots.map(parkingSpot => parkingSpot.asXML())}
+        </parkingSpots>}
+    </response>)
   }
 
 }
