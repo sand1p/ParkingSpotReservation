@@ -134,5 +134,4 @@ class ReservationController @Inject()(cc: ControllerComponents, reservationServi
     }
   }
 
-
 }

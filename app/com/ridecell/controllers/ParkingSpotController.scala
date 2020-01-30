@@ -34,9 +34,10 @@ class ParkingSpotController @Inject()(cc: ControllerComponents,
 
   private def toParkingSpotXML(parkingSpots: List[ParkingSpot]): NodeSeq = {
     <response>
-      <status>Success</status> <parkingSpots>
-      {parkingSpots.map(parkingSpot => parkingSpot.asXML())}
-    </parkingSpots>
+      <status>Success</status>
+        <parkingSpots>
+            {parkingSpots.map(parkingSpot => parkingSpot.asXML())}
+        </parkingSpots>
     </response>
   }
 
