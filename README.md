@@ -1,7 +1,6 @@
 # ParkingSpotReservation
 Parking Spot Reservation System
 [![Build Status](https://travis-ci.org/sand1p/1timeshare.svg?branch=master)](https://travis-ci.org/sand1p/1timeshare)
-# 1timeshare
 ## Description: 
 Assume that we are building a street parking spot reservation service. Each parking spot is identified by
 its location (lat, lng). Users should be able to view street parking spots, reserve and pay for the parking
@@ -30,47 +29,7 @@ with us. You can populate your database with any dummy data you want.
       - run -Dhttp.port=PORT_NUMBER -Dconfig.file=application.conf    : to deploy application locally PORT_NUMBER : e.g. 9111
     5. Now open any REST client. And execute following APIs
 ### API List
-      1. Upload Password, to save the password this API us used. 
-         Request: 
-           URI: localhost:9000/secret/
-           Request Method: POST
-           Body:
-           { 
-             "value" : "password",
-             "expireAt" : 20190303004900
-           }
-           value: passoword to share.
-           expireAt: Time when password expires.  
-         Response:    
-          i. Status: 200 
-             Body:
-              {
-                "link": "http://localhost:9000/secret/ed73ba9b-0267-41d4-aabe-5337d3356b9b"
-              }  
-              
-           Note: Open this link in the browser to receive Password.
-          ii. Status: 400 
-              Body:
-              {
-                 "result": "Invalid request"
-              } 
-                
-        2. Get password, to get the password this API is used.
-            Request:
-              URI: http://localhost:9000/secret/UUID_String
-              Request Method: GET   
-              Response:
-              i. Status: 200
-               Body: 
-                {
-                   "password": "password"
-                }
-                Success: Password that is protected by the UUID
-               ii. Status: 404 Not Found 
-                Body: 
-                 {
-                     "result": "Link is no longer valid."
-                 }
+    Yet to be Updated.
 ## How to build
       Steps: 
       1. Clone project in any directory 
